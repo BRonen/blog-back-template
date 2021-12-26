@@ -1,0 +1,23 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "main": "src/main.js",
+  "author": "BRonen<brennopereira6@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon -r dotenv/config --ignore __tests__ src/main.js",
+    "start": "node src/main.js",
+    "test": "jest"
+  },
+  "dependencies": {
+    "express": "^4.17.2",
+    "mysql2": "^2.3.3",
+    "sequelize": "^7.0.0-alpha.2"
+  },
+  "devDependencies": {
+    "dotenv": "^10.0.0",
+    "jest": "^27.4.5",
+    "nodemon": "^2.0.15",
+    "sequelize-cli": "^6.3.0"
+  }
+}
