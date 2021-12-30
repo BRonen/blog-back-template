@@ -7,7 +7,8 @@ router.get('/', (req, res) => (
 ))
 
 router.get('/posts', PostController.index)
-
-router.post('/posts', PostController.store)
+      .post('/posts', PostController.store)
+      .put('/posts', PostController.update)
+      .delete('/posts', PostController.delete)
 
 module.exports = router

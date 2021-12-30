@@ -1,4 +1,4 @@
-const Post = require('../models/Post')
+const { Post } = require('../models')
 
 module.exports = {
   async index(req, res){
@@ -9,7 +9,7 @@ module.exports = {
       return res.json(post)
     }
 
-    const posts = await Post.findAll()
+    const posts = await Post.findAll(id)
     return res.json(posts)
   },
   async store(req, res){
@@ -23,6 +23,30 @@ module.exports = {
       content: content
     })
 
+    return res.json(post)
+  },
+  async update(req, res){
+    const {title, content, id} = req.body
+    
+    const post = await Post.update(
+      {
+        title: title,
+        content: content,
+      },
+      {
+        where: { id: id }
+      }
+    )
+
+    return res.json(post)
+  },
+  async delete(req, res){
+    const {id} = req.body
+    
+    const post = await Post.destroy({
+      where: { id: id }
+    })
+  
     return res.json(post)
   }
 }
