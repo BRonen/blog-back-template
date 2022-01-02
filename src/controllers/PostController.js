@@ -6,17 +6,24 @@ module.exports = {
 
     if(id){
       const post = await Post.findByPk(id)
+
+      if(!post)
+        return res.status(404).json({ error: '404' })
+        
       return res.json(post)
     }
 
     const posts = await Post.findAll(id)
     return res.json(posts)
   },
+
   async store(req, res){
     const {title, content} = req.body
 
     if(!title | !content)
-      return res.status(404)
+      return res.status(404).json({
+        error: '404'
+      })
 
     const post = await Post.create({
       title: title,
@@ -25,6 +32,7 @@ module.exports = {
 
     return res.json(post)
   },
+
   async update(req, res){
     const {title, content, id} = req.body
     
@@ -40,6 +48,7 @@ module.exports = {
 
     return res.json(post)
   },
+
   async delete(req, res){
     const {id} = req.body
     
