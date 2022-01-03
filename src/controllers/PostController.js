@@ -9,16 +9,18 @@ module.exports = {
 
       if(!post)
         return res.status(404).json({ error: '404' })
-        
+
       return res.json(post)
     }
 
-    const posts = await Post.findAll(id)
+    const posts = await Post.findAll({
+      include: 'author'
+    })
     return res.json(posts)
   },
 
   async store(req, res){
-    const {title, content} = req.body
+    const { title, content } = req.body
 
     if(!title | !content)
       return res.status(404).json({
@@ -35,7 +37,7 @@ module.exports = {
 
   async update(req, res){
     const {title, content, id} = req.body
-    
+
     const post = await Post.update(
       {
         title: title,
@@ -51,11 +53,11 @@ module.exports = {
 
   async delete(req, res){
     const {id} = req.body
-    
+
     const post = await Post.destroy({
       where: { id: id }
     })
-  
+
     return res.json(post)
   }
 }

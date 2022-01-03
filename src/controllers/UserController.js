@@ -1,4 +1,4 @@
-const { User } = require('../models')
+const { User, Post } = require('../models')
 
 module.exports = {
   async index(req, res){
@@ -9,11 +9,13 @@ module.exports = {
 
       if(!user)
         return res.status(404).json({ error: '404' })
-        
+
       return res.json(user)
     }
 
-    const users = await User.findAll(id)
+    const users = await User.findAll({
+      include: 'posts'
+    })
     return res.json(users)
   },
 
@@ -35,7 +37,7 @@ module.exports = {
 
   async update(req, res){
     const { name, email, id } = req.body
-    
+
     const user = await User.update(
       {
         name: name,
@@ -51,11 +53,11 @@ module.exports = {
 
   async delete(req, res){
     const { id } = req.body
-    
+
     const user = await User.destroy({
       where: { id: id }
     })
-  
+
     return res.json(user)
   }
 }
