@@ -24,6 +24,7 @@ module.exports = {
   },
 
   async store(req, res){
+    const { user } = req.query
     const { title, content } = req.body
 
     if(!title | !content)
@@ -33,14 +34,15 @@ module.exports = {
 
     const post = await Post.create({
       title: title,
-      content: content
+      content: content,
+      UserId: id
     })
 
     return res.json(post)
   },
 
   async update(req, res){
-    const {title, content, id} = req.body
+    const { title, content, id } = req.body
 
     const post = await Post.update(
       {
@@ -56,7 +58,7 @@ module.exports = {
   },
 
   async delete(req, res){
-    const {id} = req.body
+    const { id } = req.body
 
     const post = await Post.destroy({
       where: { id: id }
