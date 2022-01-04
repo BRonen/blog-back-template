@@ -14,8 +14,12 @@ module.exports = {
     }
 
     const posts = await Post.findAll({
-      include: 'author'
+      include: {
+        association: 'author',
+      },
+      attributes: { exclude: ['UserId'] }
     })
+
     return res.json(posts)
   },
 

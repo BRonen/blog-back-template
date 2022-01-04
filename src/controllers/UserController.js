@@ -14,8 +14,13 @@ module.exports = {
     }
 
     const users = await User.findAll({
-      include: 'posts'
+      include: {
+        association: 'posts',
+        attributes: { exclude: ['UserId'] }
+      },
     })
+
+    /*attributes: { exclude: ['baz'] }*/
     return res.json(users)
   },
 
