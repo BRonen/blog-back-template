@@ -2,15 +2,21 @@ const { User, Post } = require('../models')
 
 module.exports = {
   async index(req, res){
-    const { id } = req.query
+    const { id, password } = req.query
 
-    if(id){
+    if(id && password){
+      console.log(id, password)
       const user = await User.findByPk(id)
 
       if(!user)
-        return res.status(404).json({ error: '404' })
+        return res.status(404).json({ err: '404' })
 
-      return res.json(user)
+      const auth = await user.auth(password)
+
+      if(auth)
+        return res.json(user)
+
+      return res.json({err: 'wrong password'})
     }
 
     const users = await User.findAll({
@@ -20,27 +26,32 @@ module.exports = {
       },
     })
 
-    /*attributes: { exclude: ['baz'] }*/
     return res.json(users)
   },
 
   async store(req, res){
-    const { name, email } = req.body
+    const { name, email, password } = req.body
 
-    if(!name | !email)
+    console.log({
+        name: name,
+        email: email,
+        password: password,
+      })
+    if(!name || !email || !password)
       return res.status(404).json({
         error: '404'
       })
 
     const user = await User.create({
       name: name,
-      email: email
+      email: email,
+      password: password,
     })
 
     return res.json(user)
   },
 
-  async update(req, res){
+  async update(req, res){ //will need some auth
     const { name, email, id } = req.body
 
     const user = await User.update(
@@ -56,7 +67,7 @@ module.exports = {
     return res.json(user)
   },
 
-  async delete(req, res){
+  async delete(req, res){ //will need some auth
     const { id } = req.body
 
     const user = await User.destroy({

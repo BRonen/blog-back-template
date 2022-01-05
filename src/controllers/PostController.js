@@ -27,7 +27,7 @@ module.exports = {
     const { user } = req.query
     const { title, content } = req.body
 
-    if(!title | !content)
+    if(!title || !content)
       return res.status(404).json({
         error: '404'
       })
@@ -41,7 +41,7 @@ module.exports = {
     return res.json(post)
   },
 
-  async update(req, res){
+  async update(req, res){ //will need some auth
     const { title, content, id } = req.body
 
     const post = await Post.update(
@@ -57,7 +57,7 @@ module.exports = {
     return res.json(post)
   },
 
-  async delete(req, res){
+  async delete(req, res){ //will need some auth
     const { id } = req.body
 
     const post = await Post.destroy({
