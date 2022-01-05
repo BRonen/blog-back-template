@@ -13,10 +13,11 @@ module.exports = {
 
       const auth = await user.auth(password)
 
-      if(auth)
-        return res.json(user)
+      if(!auth)
+        return res.json({err: 'wrong password'})
 
-      return res.json({err: 'wrong password'})
+      user.password = undefined
+      return res.json(user)
     }
 
     const users = await User.findAll({
@@ -24,6 +25,7 @@ module.exports = {
         association: 'posts',
         attributes: { exclude: ['UserId'] }
       },
+      attributes: { exclude: ['password'] }
     })
 
     return res.json(users)
