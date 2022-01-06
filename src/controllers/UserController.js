@@ -1,11 +1,11 @@
 const { User, Post } = require('../models')
+const { genToken } = require('../middlewares/auth')
 
 module.exports = {
   async index(req, res){
     const { id, password } = req.query
 
     if(id && password){
-      console.log(id, password)
       const user = await User.findByPk(id)
 
       if(!user)
@@ -17,7 +17,10 @@ module.exports = {
         return res.json({err: 'wrong password'})
 
       user.password = undefined
-      return res.json(user)
+
+      const token = genToken(user.dataValues)
+
+      return res.json({ user, token })
     }
 
     const users = await User.findAll({
