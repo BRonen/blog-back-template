@@ -1,41 +1,41 @@
-const { Post } = require('../models')
+const { User, Post } = require('../models')
 
 module.exports = {
   async index(req, res){
-    const { id } = req.query
-
-    if(id){
-      const post = await Post.findByPk(id)
-
-      if(!post)
-        return res.status(404).json({ error: '404' })
-
-      return res.json(post)
-    }
+    const { userId } = req
 
     const posts = await Post.findAll({
-      include: {
-        association: 'author',
+      where: {
+        UserId: userId
       },
       attributes: { exclude: ['UserId'] }
     })
+
+    if(posts.length === 0)
+      return res.json({posts: 'you dont have any posts'})
 
     return res.json(posts)
   },
 
   async store(req, res){
-    const { user } = req.query
+    const { userId } = req
     const { title, content } = req.body
 
-    if(!title || !content)
-      return res.status(404).json({
-        error: '404'
+
+    if(!title)
+      return res.json({
+        error: 'please add a title'
+      })
+
+    if(!content)
+      return res.json({
+        error: 'please add a content'
       })
 
     const post = await Post.create({
       title: title,
       content: content,
-      UserId: id
+      UserId: userId
     })
 
     return res.json(post)

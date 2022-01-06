@@ -13,8 +13,8 @@ router.get('/auth', authTest, (req, res) => (
   res.json({ id: req.userId }) //only a debug temp route
 ))
 
-router.get('/posts', PostController.index)
-      .post('/posts', PostController.store)
+router.get('/posts', authTest, PostController.index)
+      .post('/posts', authTest, PostController.store)
 
 router.get('/users', UserController.index)
       .post('/users', UserController.store)
