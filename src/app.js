@@ -3,8 +3,6 @@ const router = require('./routes')
 
 const cors = require('cors')
 
-require('./database')
-
 class App{
   constructor(){
     this.express = express()
@@ -17,7 +15,7 @@ class App{
     this.express.use(express.json())
     this.express.use(cors())
   }
-  
+
   routes(){
     this.express.use('/', router)
   }
