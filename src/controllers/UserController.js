@@ -9,7 +9,7 @@ module.exports = {
       const user = await User.findByPk(id)
 
       if(!user)
-        return res.status(404).json({ err: '404' })
+        return res.status(404).json({ err: 'user not found' })
 
       const auth = await user.auth(password)
 

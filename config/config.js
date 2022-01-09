@@ -14,5 +14,10 @@ module.exports = {
     password: process.env.DB_PSWD,
     host:     process.env.DB_HOST,
     dialect:  process.env.DB_DLCT,
+  },
+  test: {
+    dialect:  'sqlite',
+    storage:  './__tests__/database.sqlite',
+    logging:  false,
   }
 }
