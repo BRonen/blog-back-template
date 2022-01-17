@@ -16,6 +16,7 @@ describe('User model', () => {
       password: 'admin'
     })
 
+
     expect(user.name).toBe('Admin Nimda')
     expect(user.email).toBe('admin@admail.com')
 
@@ -41,6 +42,7 @@ describe('User model', () => {
     expect(createResponse.body).toHaveProperty('id')
     expect(createResponse.body).toHaveProperty('name')
     expect(createResponse.body).toHaveProperty('email')
+    expect(createResponse.body).not.toHaveProperty('password')
 
     const { name, email } = createResponse.body
 
