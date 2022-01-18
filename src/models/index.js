@@ -11,9 +11,7 @@ const db = {};
 let sequelize;
 sequelize = new Sequelize(config.database, config.username, config.password, config);
 
-sequelize.authenticate().then(() => {
-  console.log('Connection has been established successfully.');
-}).catch(error => {
+sequelize.authenticate().catch(error => {
   console.error('Unable to connect to the database:', error);
 });
 
