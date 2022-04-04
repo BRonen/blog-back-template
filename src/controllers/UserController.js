@@ -9,7 +9,7 @@ module.exports = {
       attributes: { exclude: ['password'] }
     })
 
-    return res.json(users)
+    return res.json({ users })
   },
 
   async search(req, res){
@@ -20,7 +20,7 @@ module.exports = {
     if(!user)
       res.json({err: "user not found"})
 
-    return res.json(user)
+    return res.json({ user })
 
   },
 
@@ -51,6 +51,6 @@ module.exports = {
 
     user.password = undefined
 
-    return res.json(user)
+    return res.json({ user })
   },
 }
