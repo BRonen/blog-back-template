@@ -14,13 +14,13 @@
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
-    "dotenv": "^10.0.0",
     "express": "^4.17.2",
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.7.1",
     "sequelize": "^6.12.4"
   },
   "devDependencies": {
+    "dotenv": "^16.0.0",
     "jest": "^27.4.5",
     "nodemon": "^2.0.15",
     "sequelize-cli": "^6.3.0",
