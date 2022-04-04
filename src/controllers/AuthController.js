@@ -9,28 +9,22 @@ module.exports = {
   },
 
   async create(req, res){
-    const { id, email, password } = req.body
+    const { email, password } = req.body
 
     if(!password)
-        return res.status(422).json({err: "Password invalid"})
+        return res.json({err: "Password invalid"})
 
-    let user
-
-    if(id)
-        user = await User.findByPk(id)
-    
-    if(email)
-        user = await User.findOne({
-            where: { email: email }
-        })
+    const user = await User.findOne({
+      where: { email: email }
+    })
 
     if(!user)
-      return res.status(404).json({ err: 'user not found' })
+      return res.json({ err: 'user not found' })
 
     const authenticated = await user.auth(password)
 
     if(!authenticated)
-        return res.status(403).json({err: 'wrong password'})
+        return res.json({err: 'wrong password'})
 
     const token = genToken(user.dataValues)
 

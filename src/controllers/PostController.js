@@ -2,10 +2,22 @@ const { Post } = require('../models')
 
 module.exports = {
   async index(req, res){
-    const posts = await Post.findAll()
+    const { page, perPage } = req.query
+    
+    let offset, limit
 
-    if(posts.length === 0)
-      return res.json({posts: 'we dont have any posts'})
+    if(page && perPage)
+      offset = page * perPage
+    if(perPage)
+      limit = perPage
+
+    console.log({
+      offset, limit
+    })
+
+    const posts = await Post.findAll({
+      offset, limit
+    })
 
     return res.json(posts)
   },
@@ -16,7 +28,7 @@ module.exports = {
     const post = await Post.findByPk(postId)
 
     if(!post)
-      return res.json({err: 'we dont have this posts'})
+      return res.json({err: 'we dont have this post'})
 
     return res.json(post)
   },
@@ -35,12 +47,12 @@ module.exports = {
         error: 'please add a content'
       })
 
-      const post = await Post.create({
-        title: title,
-        content: content,
-        UserId: userId
-      })
+    const post = await Post.create({
+      title: title,
+      content: content,
+      UserId: userId
+    })
 
-      return res.json(post)
+    return res.json(post)
   },
 }
