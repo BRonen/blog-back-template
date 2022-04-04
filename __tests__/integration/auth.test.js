@@ -5,7 +5,7 @@ const { User } = require('../../src/models')
 const truncate = require('../utils/truncate')
 
 const userDataExample = {
-  name: 'Teste Example',
+  name: 'Test Example',
   email: 'Example@test.com',
   password: 'Example'
 }
