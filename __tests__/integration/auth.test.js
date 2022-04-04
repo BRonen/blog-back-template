@@ -1,58 +1,29 @@
 const request = require('supertest')
 const app = require('../../src/app')
+const { User } = require('../../src/models')
 
 const truncate = require('../utils/truncate')
 
+const userDataExample = {
+  name: 'Teste Example',
+  email: 'Example@test.com',
+  password: 'Example'
+}
+
 describe('User login', () => {
-  beforeEach(truncate)
-
-  it('should get a jwt token when authenticated with id and valid password', async () => {
-    const userData = {
-      name: 'Teste One',
-      email: 'One@test.com',
-      password: 'One'
-    }
-
-    const createResponse = await request(app)
-      .post('/users')
-      .send(userData)
-
-    const { user } = createResponse.body
-
-    const authResponse = await request(app)
-      .post('/auth')
-      .send(userData)
-
-    expect(authResponse.body).toHaveProperty('token')
-
-    const { token } = authResponse.body
-
-    const authTestResponse = await request(app)
-      .get('/auth')
-      .set('authorization', `Bearer ${token}`)
-
-    const { id } = authTestResponse.body
-
-    expect(id).toBe(user.id) 
+  beforeEach(async () => {
+    await truncate()
+    await User.create(userDataExample)
   })
 
-
   it('should get a valid jwt token when authenticated with email and valid password', async () => {
-    const userData = await {
-      name: 'Teste Two',
-      email: 'Two@test.com',
-      password: 'Two'
-    }
-
-    const createResponse = await request(app)
-      .post('/users')
-      .send(userData)
-
-    const { user } = createResponse.body
-
+    
     const authResponse = await request(app)
       .post('/auth')
-      .send(userData)
+      .send({
+        email: userDataExample.email,
+        password: userDataExample.password,
+      })
 
     const { body } = authResponse
 
@@ -64,31 +35,17 @@ describe('User login', () => {
       .get('/auth')
       .set('authorization', `Bearer ${token}`)
 
-    const { id } = authTestResponse.body
-
-    expect(id).toBe(user.id) 
+    expect(authTestResponse.body).toHaveProperty('id') 
   })
 
 
   it('should not get a jwt token when authenticated with invalid password', async () => {
-    const userData = {
-      name: 'Teste Three',
-      email: 'Three@test.com',
-      password: 'Three'
-    }
-
     const wrongPassword = 'wrong'
-
-    const createResponse = await request(app)
-      .post('/users')
-      .send(userData)
-
-    const { user } = createResponse.body
 
     const authResponse = await request(app)
       .post('/auth')
       .send({
-        email: user.email,
+        email: userDataExample.email,
         password: wrongPassword
       })
 
