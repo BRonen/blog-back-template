@@ -11,15 +11,11 @@ module.exports = {
     if(perPage)
       limit = perPage
 
-    console.log({
-      offset, limit
-    })
-
     const posts = await Post.findAll({
       offset, limit
     })
 
-    return res.json(posts)
+    return res.json({ posts })
   },
 
   async search(req, res){
@@ -30,7 +26,7 @@ module.exports = {
     if(!post)
       return res.json({err: 'we dont have this post'})
 
-    return res.json(post)
+    return res.json({ post })
   },
 
   async store(req, res){
@@ -48,11 +44,9 @@ module.exports = {
       })
 
     const post = await Post.create({
-      title: title,
-      content: content,
-      UserId: userId
+      title, content, userId
     })
 
-    return res.json(post)
+    return res.json({ post })
   },
 }
