@@ -7,14 +7,13 @@ module.exports = {
     let offset, limit
 
     if(page && perPage)
-      offset = page * perPage
+      offset = (page - 1) * perPage 
     if(perPage)
       limit = perPage
 
     const posts = await Post.findAll({
       offset, limit
     })
-
     return res.json({ posts })
   },
 
