@@ -12,13 +12,9 @@ module.exports = {
       query.offset = (page - 1) * perPage 
     if(perPage)
       query.limit = perPage
-    try{
+
     const posts = await Post.findAll(query)
     return res.json({ posts })
-    }catch(e){
-      console.log(e)
-      return res.json(e)
-    }
   },
 
   async search(req, res){

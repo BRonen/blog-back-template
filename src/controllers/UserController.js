@@ -15,7 +15,12 @@ module.exports = {
   async search(req, res){
     const { userId } = req.params
 
-    const user = await User.findByPk(userId)
+    const user = await User.findByPk(userId, {
+      include: {
+        association: 'posts'
+      },
+      attributes: { exclude: ['password'] }
+    })
     
     if(!user)
       res.json({err: "user not found"})
