@@ -79,6 +79,37 @@ describe('Post model', () => {
 
         const { posts } = allPostsRequest.body
 
-        console.log(posts)
+        expect(posts.length).toBe(10)
+    })
+
+    it('should use pagination to get the last five posts', async () => {
+        const token = await authenticateUser(userDataExample)
+        const postsToAnalize = []
+
+        for(let i = 1; i <= 10; i++){
+            const createResponse = await request(app)
+                .post('/posts')
+                .set('authorization', `Bearer ${token}`)
+                .send({
+                    title: `Post number ${i}`,
+                    content: `Lorem ipsum dolor sit amet ${i}.`
+                })
+
+            if(i > 5){
+                const { post } = createResponse.body
+                postsToAnalize.push( JSON.stringify(post) )
+            }
+        }
+
+        const lastFivePostsRequest = await request(app)
+            .get('/posts?perPage=5')
+        
+        expect(lastFivePostsRequest.body).toHaveProperty('posts')
+
+        const { posts } = lastFivePostsRequest.body
+
+        posts.forEach(post => {
+            expect(postsToAnalize).toContain( JSON.stringify(post) )
+        })
     })
 })
