@@ -38,7 +38,7 @@ describe('Post model', () => {
         await User.create(userDataExample)
     })
 
-    it('should create a new room and associate with an User', async () => {
+    it('should create a new post and associate with an User', async () => {
         const token = await authenticateUser(userDataExample)
 
         const createResponse = await request(app)
