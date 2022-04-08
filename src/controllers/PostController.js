@@ -4,17 +4,21 @@ module.exports = {
   async index(req, res){
     const { page, perPage } = req.query
     
-    let offset, limit
+    const query = {
+      order: [['created_at', 'DESC']]
+    }
 
     if(page && perPage)
-      offset = (page - 1) * perPage 
+      query.offset = (page - 1) * perPage 
     if(perPage)
-      limit = perPage
-
-    const posts = await Post.findAll({
-      offset, limit
-    })
+      query.limit = perPage
+    try{
+    const posts = await Post.findAll(query)
     return res.json({ posts })
+    }catch(e){
+      console.log(e)
+      return res.json(e)
+    }
   },
 
   async search(req, res){
