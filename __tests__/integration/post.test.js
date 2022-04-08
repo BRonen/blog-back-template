@@ -97,7 +97,7 @@ describe('Post model', () => {
 
             if(i > 5){
                 const { post } = createResponse.body
-                postsToAnalize.push( JSON.stringify(post) )
+                postsToAnalize.push( post )
             }
         }
 
@@ -109,7 +109,7 @@ describe('Post model', () => {
         const { posts } = lastFivePostsRequest.body
 
         posts.forEach(post => {
-            expect(postsToAnalize).toContain( JSON.stringify(post) )
+            expect(postsToAnalize).toContainEqual( post )
         })
     })
 })
