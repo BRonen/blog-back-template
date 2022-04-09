@@ -2,7 +2,7 @@
 
 A generic blog backend template to learn about automated testing and resful APIs with node.js and express.
 
-<hr/>
+<br/>
 
 ## Developed with
  - CORS middleware enabled;
@@ -13,7 +13,7 @@ A generic blog backend template to learn about automated testing and resful APIs
 
 Everything has been configured to work with enviroment variables or a .env file, please look at the [ [.env.example](.env.example) ].
 
-<hr/>
+<br/>
 
 ### Tests running at [github actions](https://github.com/BRonen/blog-back-template/actions/)
 
